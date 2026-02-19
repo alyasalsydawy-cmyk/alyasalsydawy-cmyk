@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>الیاس سعیداوی</title>
+</head>
+<body style="background:#0f172a;color:white;text-align:center">
+
+<h1>🔥 الیاس سعیداوی 🔥</h1>
+
+<input id="email" placeholder="إيميل"><br><br>
+<input id="password" type="password" placeholder="باسورد"><br><br>
+
+<button onclick="register()">تسجيل</button>
+<button onclick="login()">دخول</button>
+
+<hr>
+
+<input type="file" id="file">
+<button onclick="upload()">رفع ملف</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "API_KEY",
+  authDomain: "PROJECT.firebaseapp.com",
+  projectId: "PROJECT_ID",
+  storageBucket: "PROJECT.appspot.com",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const storage = getStorage();
+
+window.register = () => {
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+  .alert("تم التسجيل 🔥");
+};
+
+window.login = () => {
+  signInWithEmailAndPassword(auth, email.value, password.value)
+  .alert("تم الدخول 😎");
+};
+
+window.upload = async () => {
+  const user = auth.currentUser;
+  if (!user) return alert("سجّل دخول أولاً");
+
+  const file = document.getElementById("file").files[0];
+  const fileRef = ref(storage, `users/${user.uid}/${file.name}`);
+  await uploadBytes(fileRef, file);
+  alert("تم الرفع 🔥");
+};
+</script>
+
+</body>
+</html>
